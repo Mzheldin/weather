@@ -27,9 +27,7 @@ public class Utils {
 
     private void getResponce(double lat, double lon){
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        try {
-            CloseableHttpResponse response = httpClient.execute(formRequest(lat, lon));
-            Scanner scanner = new Scanner(response.getEntity().getContent());
+        try (Scanner scanner = new Scanner(httpClient.execute(formRequest(lat, lon)).getEntity().getContent())){
             if (scanner.hasNext()) responce = scanner.next();
         } catch (IOException e) {
             e.printStackTrace();
